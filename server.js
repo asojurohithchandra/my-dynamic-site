@@ -6,6 +6,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const path = require('path');
+
+// Serve static files (index.html, dashboard.html, etc.)
+app.use(express.static(path.join(__dirname)));
+
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
   console.error('MONGODB_URI not set - set it in Render environment variables');
