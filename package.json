@@ -24,3 +24,5 @@
   },
   "homepage": "https://github.com/asojurohithchandra/my-dynamic-site#readme"
 }
+
+Update package.json for backend (server.js, mongoose, cors)
