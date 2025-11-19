@@ -33,36 +33,58 @@
 
 <script>
 async function login() {
-  const user = document.getElementById("loginUsername").value;
-  const pass = document.getElementById("loginPassword").value;
-  const res = await fetch('/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: user, password: pass })
-  });
-  const data = await res.json();
-  if(data.success) {
-    alert("Login successful!");
-    window.location.href = "dashboard.html"; // create this page
-  } else {
-    document.getElementById("loginError").textContent = data.message;
+  const user = document.getElementById("loginUsername").value.trim();
+  const pass = document.getElementById("loginPassword").value.trim();
+
+  if(!user || !pass) {
+    document.getElementById("loginError").textContent = "Please enter username and password.";
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: user, password: pass })
+    });
+    const data = await res.json();
+    if(data.success) {
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    } else {
+      document.getElementById("loginError").textContent = data.message;
+    }
+  } catch(err) {
+    console.error(err);
+    document.getElementById("loginError").textContent = "Server error. Try again later.";
   }
 }
 
 async function signup() {
-  const user = document.getElementById("signupUsername").value;
-  const pass = document.getElementById("signupPassword").value;
-  const res = await fetch('/signup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: user, password: pass })
-  });
-  const data = await res.json();
-  if(data.success) {
-    alert("Sign-up successful! You can now login.");
-    document.getElementById("signupError").textContent = "";
-  } else {
-    document.getElementById("signupError").textContent = data.message;
+  const user = document.getElementById("signupUsername").value.trim();
+  const pass = document.getElementById("signupPassword").value.trim();
+
+  if(!user || !pass) {
+    document.getElementById("signupError").textContent = "Please enter username and password.";
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: user, password: pass })
+    });
+    const data = await res.json();
+    if(data.success) {
+      alert("Sign-up successful! You can now login.");
+      document.getElementById("signupError").textContent = "";
+    } else {
+      document.getElementById("signupError").textContent = data.message;
+    }
+  } catch(err) {
+    console.error(err);
+    document.getElementById("signupError").textContent = "Server error. Try again later.";
   }
 }
 </script>
